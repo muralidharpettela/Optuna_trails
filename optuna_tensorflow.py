@@ -124,12 +124,13 @@ def objective(trial):
 
 
 if __name__ == '__main__':
-    neptune.init('muralidharpettela/sandbox', api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiMmRjMDMwNzgtYmIzMi00NGIyLTk1M2YtOTYzMzI4YjA4NGI3In0=')
-    neptune.create_experiment(name='optuna sweep')
-    monitor = opt_utils.NeptuneMonitor()
+    #neptune.init('muralidharpettela/sandbox', api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiMmRjMDMwNzgtYmIzMi00NGIyLTk1M2YtOTYzMzI4YjA4NGI3In0=')
+    #neptune.create_experiment(name='optuna sweep')
+    #monitor = opt_utils.NeptuneMonitor()
     study = optuna.create_study(direction='maximize')
     study.optimize(objective, n_trials=100)
-    opt_utils.log_study(study)
+
+    #opt_utils.log_study(study)
     print('Number of finished trials: ', len(study.trials))
 
     print('Best trial:')

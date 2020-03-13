@@ -1,13 +1,12 @@
-import neptune
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
 
-# same token as above
-# make sure to put correct username in project_qualified_name
-neptune.init('muralidharpettela/sandbox', api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiMmRjMDMwNzgtYmIzMi00NGIyLTk1M2YtOTYzMzI4YjA4NGI3In0=')
+mnist = fetch_openml(name='Fashion-MNIST', version=1)
+classes = list(set(mnist.target))
 
-# create experiment in the project defined above
-neptune.create_experiment()
+# For demonstrational purpose, only use a subset of the dataset.
+n_samples = 4000
+data = mnist.data[:n_samples]
+target = mnist.target[:n_samples]
 
-# send some metrics to your experiment
-neptune.send_metric('acc', 0.95)
-
-neptune.stop()
+x_train, x_test, y_train, y_test = train_test_split(data, target)
