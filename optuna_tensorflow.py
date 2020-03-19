@@ -124,9 +124,16 @@ def objective(trial):
 
 
 if __name__ == '__main__':
-    #neptune.init('muralidharpettela/sandbox', api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiMmRjMDMwNzgtYmIzMi00NGIyLTk1M2YtOTYzMzI4YjA4NGI3In0=')
-    #neptune.create_experiment(name='optuna sweep')
-    #monitor = opt_utils.NeptuneMonitor()
+    proxies = {
+        'http': 'http://192.168.1.202:3128',
+        'https': 'http://192.168.1.202:3128',
+    }
+    from neptune import HostedNeptuneBackend
+
+    #neptune.init('muralidharpettela/sandbox',backend=HostedNeptuneBackend(api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiMmRjMDMwNzgtYmIzMi00NGIyLTk1M2YtOTYzMzI4YjA4NGI3In0=',proxies=proxies))
+    neptune.init('muralidharpettela/sandbox', api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vdWkubmVwdHVuZS5haSIsImFwaV91cmwiOiJodHRwczovL3VpLm5lcHR1bmUuYWkiLCJhcGlfa2V5IjoiMmRjMDMwNzgtYmIzMi00NGIyLTk1M2YtOTYzMzI4YjA4NGI3In0=', proxies=proxies, backend=neptune.OfflineBackend())
+    neptune.create_experiment(name='optuna sweep')
+    monitor = opt_utils.NeptuneMonitor()
     study = optuna.create_study(direction='maximize')
     study.optimize(objective, n_trials=100)
 
@@ -141,7 +148,5 @@ if __name__ == '__main__':
     print('  Params: ')
     for key, value in trial.params.items():
         print('    {}: {}'.format(key, value))
-
-
 
     neptune.stop()
